@@ -4,7 +4,7 @@ controller:
   # name: nginx-ingress
 
   ## The kind of the Ingress Controller installation - deployment or daemonset.
-  kind: deployment
+  kind: daemonset
 
   ## Deploys the Ingress Controller for NGINX Plus.
   nginxplus: false
@@ -33,7 +33,7 @@ controller:
     memory: 0
 
   ## Enables the Ingress Controller pods to use the host's network namespace.
-  hostNetwork: false
+  hostNetwork: true
 
   ## Enables debugging for NGINX. Uses the nginx-debug binary. Requires error-log-level: debug in the ConfigMap via `controller.config.entries`.
   nginxDebug: false
@@ -103,7 +103,8 @@ controller:
   terminationGracePeriodSeconds: 30
 
   ## The resources of the Ingress Controller pods.
-  resources: {}
+  resources:
+    {}
     # limits:
     #   cpu: 100m
     #   memory: 64Mi
@@ -179,7 +180,8 @@ controller:
     create: false
 
     ## The spec of the GlobalConfiguration for defining the global configuration parameters of the Ingress Controller.
-    spec: {}
+    spec:
+      {}
       # listeners:
       # - name: dns-udp
       #   port: 5353
@@ -200,7 +202,7 @@ controller:
 
   nginxStatus:
     ## Enable the NGINX stub_status, or the NGINX Plus API.
-    enable: true
+    enable: false
 
     ## Set the port where the NGINX stub_status or the NGINX Plus API is exposed.
     port: 8080
@@ -210,7 +212,7 @@ controller:
 
   service:
     ## Creates a service to expose the Ingress Controller pods.
-    create: true
+    create: false
 
     ## The type of service to create for the Ingress Controller.
     type: NodePort
@@ -280,7 +282,7 @@ controller:
     ## You must also specify the source of the external address either through an external service via controller.reportIngressStatus.externalService,
     ## controller.reportIngressStatus.ingressLink or the external-status-address entry in the ConfigMap via controller.config.entries.
     ## Note: controller.config.entries.external-status-address takes precedence over the others.
-    enable: true
+    enable: false
 
     ## Specifies the name of the service with the type LoadBalancer through which the Ingress Controller is exposed externally.
     ## The external address of the service is used when reporting the status of Ingress, VirtualServer and VirtualServerRoute resources.
@@ -315,7 +317,7 @@ controller:
 
   readyStatus:
     ## Enables readiness endpoint "/nginx-ready". The endpoint returns a success code when NGINX has loaded all the config after startup.
-    enable: true
+    enable: false
 
     ## Set the port where the readiness endpoint is exposed.
     port: 8081
@@ -329,7 +331,7 @@ rbac:
 
 prometheus:
   ## Expose NGINX or NGINX Plus metrics in the Prometheus format.
-  create: true
+  create: false
 
   ## Configures the port to scrape the metrics.
   port: 9113
